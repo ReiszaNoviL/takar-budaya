@@ -1,0 +1,447 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TAKAR BUDAYA - Tata Kalkulasi Partisipasi Budaya</title>
+  <meta name="description" content="Kalkulator praktis estimasi penonton gelaran acara budaya berbasis Metode Herbert Jacobs (P = A x D x T x C).">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Latar Belakang Tradisional Jawa (Matte Sogan & Kayu Jati, Tanpa Neon) -->
+  <div class="jawa-bg">
+    <div class="kawung-watermark"></div>
+  </div>
+
+  <div class="main-wrapper">
+    <!-- Header Aplikasi -->
+    <header class="app-header">
+      <div class="jawa-aksara-badge">
+        <span class="ornament">꧁</span>
+        <span class="aksara-text">ꦠꦏꦂꦧꦸꦢꦪ</span>
+        <span class="ornament">꧂</span>
+      </div>
+      <h1 class="main-title">TAKAR BUDAYA</h1>
+      <p class="main-acronym">Tata Kalkulasi Partisipasi Budaya</p>
+      <p class="main-subtitle">Kalkulator Estimasi Penonton Acara Budaya &bull; Metode Jacobs</p>
+      <div class="formula-tag">
+        <code>P = A &times; D &times; T &times; C</code>
+      </div>
+    </header>
+
+    <main class="content-container">
+      <!-- KARTU 1: Informasi Acara -->
+      <section class="form-card">
+        <div class="card-title-group">
+          <span class="step-badge">1</span>
+          <div>
+            <h2 class="card-title">Informasi Acara</h2>
+            <p class="card-desc">Identitas acara untuk pesan WhatsApp &amp; laporan PDF</p>
+          </div>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="field-item">
+            <label for="namaAcara">Nama Acara</label>
+            <input type="text" id="namaAcara" class="text-input" placeholder="Contoh: Pentas Wayang Kulit" value="Pentas Seni &amp; Budaya">
+          </div>
+          <div class="field-item">
+            <label for="tglAcara">Tanggal Acara</label>
+            <input type="date" id="tglAcara" class="text-input">
+          </div>
+          <div class="field-item">
+            <label for="jamAcara">Waktu / Jam</label>
+            <input type="text" id="jamAcara" class="text-input" placeholder="Contoh: 19.30 - 23.30 WIB" value="19.30 - 23.30 WIB">
+          </div>
+        </div>
+      </section>
+
+      <!-- KARTU 2: Parameter A (Luas Area) -->
+      <section class="form-card">
+        <div class="card-title-group">
+          <span class="step-badge">2</span>
+          <div>
+            <h2 class="card-title">Luas Area Penonton (A)</h2>
+            <p class="card-desc">Pilih ukuran cepat atau masukkan ukuran sendiri</p>
+          </div>
+        </div>
+
+        <!-- Tombol Cepat Luas -->
+        <div class="quick-buttons-row" id="quickAreaGroup">
+          <button type="button" class="quick-btn" data-area="300">300 m&sup2;</button>
+          <button type="button" class="quick-btn" data-area="500">500 m&sup2;</button>
+          <button type="button" class="quick-btn" data-area="700">700 m&sup2;</button>
+          <button type="button" class="quick-btn active" data-area="1000">1.000 m&sup2;</button>
+          <button type="button" class="quick-btn" data-area="custom">Ketik Sendiri &hellip;</button>
+        </div>
+
+        <!-- Input Manual Luas -->
+        <div class="custom-area-box" id="customAreaBox">
+          <div class="sub-toggle-tabs">
+            <button type="button" class="sub-tab active" id="tabModePL">Panjang &times; Lebar</button>
+            <button type="button" class="sub-tab" id="tabModeTotal">Total Luas (m&sup2;)</button>
+          </div>
+
+          <div id="panelPL" class="input-duo">
+            <div class="field-item">
+              <label for="inputPanjang">Panjang (meter)</label>
+              <input type="number" id="inputPanjang" class="text-input" value="40" min="1" step="1">
+            </div>
+            <div class="field-item">
+              <label for="inputLebar">Lebar (meter)</label>
+              <input type="number" id="inputLebar" class="text-input" value="25" min="1" step="1">
+            </div>
+          </div>
+
+          <div id="panelTotal" class="input-single hidden">
+            <div class="field-item">
+              <label for="inputTotalLuas">Total Luas Lokasi (m&sup2;)</label>
+              <input type="number" id="inputTotalLuas" class="text-input" value="1000" min="1" step="10">
+            </div>
+          </div>
+        </div>
+
+        <!-- Indikator Luas Terpilih -->
+        <div class="active-val-banner">
+          <span>Luas Lokasi Terhitung (A):</span>
+          <strong id="badgeLuas">1.000 m&sup2;</strong>
+        </div>
+      </section>
+
+      <!-- KARTU 3: Parameter D (Kepadatan Penonton) -->
+      <section class="form-card">
+        <div class="card-title-group">
+          <span class="step-badge">3</span>
+          <div>
+            <h2 class="card-title">Kepadatan Penonton per m&sup2; (D)</h2>
+            <p class="card-desc">Perkiraan kerapatan posisi penonton di lokasi</p>
+          </div>
+        </div>
+
+        <div class="selection-grid" id="groupDensity">
+          <div class="select-card" data-val="0.5">
+            <div class="select-indicator"></div>
+            <div class="select-body">
+              <div class="select-header">
+                <span class="select-title">Senggang / Lesehan</span>
+                <span class="val-pill">0,5 org/m&sup2;</span>
+              </div>
+              <p class="select-note">Lesehan santai, ruang gerak lega 1–2 meter antarorang.</p>
+            </div>
+          </div>
+
+          <div class="select-card active" data-val="1.0">
+            <div class="select-indicator"></div>
+            <div class="select-body">
+              <div class="select-header">
+                <span class="select-title">Sedang / Nyaman (Aman)</span>
+                <span class="val-pill">1,0 org/m&sup2;</span>
+              </div>
+              <p class="select-note">Kondisi normal wajar, penonton leluasa tanpa berdesakan.</p>
+            </div>
+          </div>
+
+          <div class="select-card" data-val="2.0">
+            <div class="select-indicator"></div>
+            <div class="select-body">
+              <div class="select-header">
+                <span class="select-title">Berdiri Berdekatan</span>
+                <span class="val-pill">2,0 org/m&sup2;</span>
+              </div>
+              <p class="select-note">Berdiri berdekatan sejangkauan tangan, tanpa desak-desakan.</p>
+            </div>
+          </div>
+
+          <div class="select-card" data-val="3.0">
+            <div class="select-indicator"></div>
+            <div class="select-body">
+              <div class="select-header">
+                <span class="select-title">Ramai Festival</span>
+                <span class="val-pill">3,0 org/m&sup2;</span>
+              </div>
+              <p class="select-note">Suasana panggung ramai, bahu sesekali bersentuhan.</p>
+            </div>
+          </div>
+
+          <div class="select-card" data-val="4.0">
+            <div class="select-indicator"></div>
+            <div class="select-body">
+              <div class="select-header">
+                <span class="select-title">Sangat Padat (Depan Panggung)</span>
+                <span class="val-pill">4,0 org/m&sup2;</span>
+              </div>
+              <p class="select-note">Kondisi berdesakan padat di barisan paling depan.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- KARTU 4: Parameter T (Perputaran Penonton) -->
+      <section class="form-card">
+        <div class="card-title-group">
+          <span class="step-badge">4</span>
+          <div>
+            <h2 class="card-title">Perputaran Penonton (T)</h2>
+            <p class="card-desc">Berapa kali penonton diperkirakan berganti sepanjang acara?</p>
+          </div>
+        </div>
+
+        <div class="selection-grid" id="groupTurnover">
+          <div class="select-card active" data-val="1">
+            <div class="select-indicator"></div>
+            <div class="select-body">
+              <div class="select-header">
+                <span class="select-title">1x (Satu Sesi)</span>
+                <span class="val-pill">T = 1x</span>
+              </div>
+              <p class="select-note">Penonton tetap sama dari awal hingga selesai (tidak berganti).</p>
+            </div>
+          </div>
+
+          <div class="select-card" data-val="2">
+            <div class="select-indicator"></div>
+            <div class="select-body">
+              <div class="select-header">
+                <span class="select-title">2x Berganti</span>
+                <span class="val-pill">T = 2x</span>
+              </div>
+              <p class="select-note">Massa berganti 2 kali sepanjang acara.</p>
+            </div>
+          </div>
+
+          <div class="select-card" data-val="3">
+            <div class="select-indicator"></div>
+            <div class="select-body">
+              <div class="select-header">
+                <span class="select-title">3x Berganti</span>
+                <span class="val-pill">T = 3x</span>
+              </div>
+              <p class="select-note">Massa berganti 3 kali (contoh: acara 6 jam, bertahan ~2 jam).</p>
+            </div>
+          </div>
+
+          <div class="select-card" data-val="4">
+            <div class="select-indicator"></div>
+            <div class="select-body">
+              <div class="select-header">
+                <span class="select-title">4x Berganti</span>
+                <span class="val-pill">T = 4x</span>
+              </div>
+              <p class="select-note">Massa berganti 4 kali (contoh: acara 12 jam, bertahan ~3 jam).</p>
+            </div>
+          </div>
+
+          <div class="select-card" data-val="5">
+            <div class="select-indicator"></div>
+            <div class="select-body">
+              <div class="select-header">
+                <span class="select-title">5x (Kirab / Pawai)</span>
+                <span class="val-pill">T = 5x</span>
+              </div>
+              <p class="select-note">Acara jalanan sepanjang hari, penonton baru terus mengalir.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- KARTU 5: Parameter C (Aksesibilitas dan Minat) -->
+      <section class="form-card">
+        <div class="card-title-group">
+          <span class="step-badge">5</span>
+          <div>
+            <h2 class="card-title">Aksesibilitas &amp; Minat Acara (C)</h2>
+            <p class="card-desc">Faktor kemudahan lokasi dan daya tarik acara</p>
+          </div>
+        </div>
+
+        <div class="selection-grid" id="groupCorrection">
+          <div class="select-card" data-val="1.0">
+            <div class="select-indicator"></div>
+            <div class="select-body">
+              <div class="select-header">
+                <span class="select-title">1,0 (Maksimal)</span>
+                <span class="val-pill">C = 1,0</span>
+              </div>
+              <p class="select-note">Pusat kota, akses mudah, dan acara sangat populer.</p>
+            </div>
+          </div>
+
+          <div class="select-card active" data-val="0.8">
+            <div class="select-indicator"></div>
+            <div class="select-body">
+              <div class="select-header">
+                <span class="select-title">0,8 (Tinggi)</span>
+                <span class="val-pill">C = 0,8</span>
+              </div>
+              <p class="select-note">Akses mudah, waktu libur / akhir pekan, dan diminati warga.</p>
+            </div>
+          </div>
+
+          <div class="select-card" data-val="0.7">
+            <div class="select-indicator"></div>
+            <div class="select-body">
+              <div class="select-header">
+                <span class="select-title">0,7 (Sedang)</span>
+                <span class="val-pill">C = 0,7</span>
+              </div>
+              <p class="select-note">Akses mudah, namun diadakan pada hari kerja.</p>
+            </div>
+          </div>
+
+          <div class="select-card" data-val="0.5">
+            <div class="select-indicator"></div>
+            <div class="select-body">
+              <div class="select-header">
+                <span class="select-title">0,5 (Terbatas)</span>
+                <span class="val-pill">C = 0,5</span>
+              </div>
+              <p class="select-note">Akses lokasi sempit atau sosialisasi promosi masih minim.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- KARTU HASIL: Kotak Utama Perhitungan -->
+      <section class="result-sticky-card">
+        <div class="result-inner">
+          <div class="result-header-text">ESTIMASI TOTAL PENONTON (P)</div>
+          <div class="result-big-number" id="txtTotalResult">800</div>
+          <div class="result-unit-label">ORANG / JIWA</div>
+
+          <div class="calc-proof-box">
+            <span class="proof-label">Rumus: P = A &times; D &times; T &times; C</span>
+            <div class="proof-math" id="txtFormulaProof">
+              1.000 m&sup2; &times; 1,0 &times; 1 &times; 0,8 = 800 orang
+            </div>
+          </div>
+
+          <!-- Tombol Aksi Praktis -->
+          <div class="action-btn-row">
+            <button type="button" class="action-btn btn-wa" id="btnSalinWA">
+              <span class="btn-icon">📋</span>
+              <span>Salin Pesan WhatsApp</span>
+            </button>
+            <button type="button" class="action-btn btn-print" id="btnCetakPDF">
+              <span class="btn-icon">🖨️</span>
+              <span>Cetak / Simpan PDF</span>
+            </button>
+          </div>
+
+          <!-- Toast Notifikasi -->
+          <div class="toast-box hidden" id="toastCopy">
+            ✅ Ringkasan berhasil disalin! Siap ditempel di WhatsApp.
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer Tradisional Sederhana -->
+    <footer class="app-footer">
+      <div class="footer-aksara">꧁ ꦠꦏꦂꦧꦸꦢꦪ ꧂</div>
+      <p>Takar Budaya &copy; 2026 &bull; Tata Kalkulasi Partisipasi Budaya.</p>
+      <p class="footer-sub">Instrumen Praktis Estimasi Partisipasi Penonton Berbasis Metodologi Herbert Jacobs (1967).</p>
+    </footer>
+  </div>
+
+  <!-- ==========================================================================
+       DOKUMEN CETAK PDF LAPORAN RESMI (UKURAN FONT STANDAR LAPORAN A4)
+       ========================================================================== -->
+  <div id="printSheet" class="print-only">
+    <div class="pdf-header">
+      <div class="pdf-title">TAKAR BUDAYA</div>
+      <div class="pdf-subtitle">Ringkasan Hasil Estimasi Partisipasi &amp; Penonton Gelaran Acara Budaya</div>
+      <div class="pdf-meta-method">Metode Ilmiah: Herbert Jacobs (1967) &bull; Rumus: P = A &times; D &times; T &times; C</div>
+      <div class="pdf-divider"></div>
+    </div>
+
+    <!-- Data Identitas Acara -->
+    <table class="pdf-table-info">
+      <tr>
+        <td style="width: 25%;"><strong>Nama Acara Budaya</strong></td>
+        <td style="width: 2%;">:</td>
+        <td style="width: 73%;" id="pdfNamaAcara">Pentas Seni &amp; Budaya</td>
+      </tr>
+      <tr>
+        <td><strong>Tanggal Pelaksanaan</strong></td>
+        <td>:</td>
+        <td id="pdfTglAcara">Rabu, 28 Oktober 2026</td>
+      </tr>
+      <tr>
+        <td><strong>Waktu / Jam Acara</strong></td>
+        <td>:</td>
+        <td id="pdfJamAcara">19.30 - 23.30 WIB</td>
+      </tr>
+      <tr>
+        <td><strong>Waktu Ekspor Laporan</strong></td>
+        <td>:</td>
+        <td id="pdfWaktuCetak">-</td>
+      </tr>
+    </table>
+
+    <div class="pdf-section-title">I. RINCIAN PARAMETER PENGHITUNGAN LAPANGAN</div>
+    <table class="pdf-table-data">
+      <thead>
+        <tr>
+          <th style="width: 6%; text-align: center;">No</th>
+          <th style="width: 32%;">Parameter Penghitungan</th>
+          <th style="width: 12%; text-align: center;">Simbol</th>
+          <th style="width: 20%; text-align: right;">Nilai Terukur</th>
+          <th style="width: 30%;">Keterangan Lapangan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: center;">1</td>
+          <td><strong>Luas Area Efektif</strong></td>
+          <td style="text-align: center;"><code>A</code></td>
+          <td style="text-align: right; font-weight: bold;" id="pdfRowArea">1.000 m&sup2;</td>
+          <td id="pdfDescArea">Luas lokasi penonton terukur di lapangan</td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">2</td>
+          <td><strong>Kepadatan Penonton</strong></td>
+          <td style="text-align: center;"><code>D</code></td>
+          <td style="text-align: right; font-weight: bold;" id="pdfRowDensity">1,0 org/m&sup2;</td>
+          <td id="pdfDescDensity">Kepadatan sedang / kondisi normal nyaman</td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">3</td>
+          <td><strong>Faktor Perputaran</strong></td>
+          <td style="text-align: center;"><code>T</code></td>
+          <td style="text-align: right; font-weight: bold;" id="pdfRowTurnover">1x</td>
+          <td id="pdfDescTurnover">Penonton sama dari awal hingga selesai</td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">4</td>
+          <td><strong>Aksesibilitas &amp; Minat</strong></td>
+          <td style="text-align: center;"><code>C</code></td>
+          <td style="text-align: right; font-weight: bold;" id="pdfRowCorrection">0,8 (80%)</td>
+          <td id="pdfDescCorrection">Akses mudah, hari libur / diminati</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pdf-section-title">II. HASIL KALKULASI ESTIMASI PENONTON</div>
+    <div class="pdf-result-card">
+      <div class="pdf-calc-line">
+        <strong>Pembuktian Rumus (P = A &times; D &times; T &times; C):</strong><br>
+        <span id="pdfCalcFormula">1.000 m&sup2; &times; 1,0 &times; 1 &times; 0,8 = 800 Orang</span>
+      </div>
+      <div class="pdf-banner-total">
+        <span>TOTAL ESTIMASI PENONTON / PARTISIPASI:</span>
+        <strong id="pdfResultNumber">800 ORANG / JIWA</strong>
+      </div>
+    </div>
+
+    <div class="pdf-footer-note">
+      <div><strong>Rujukan Metodologi:</strong> Herbert Jacobs (1967), <em>To Count a Crowd</em>, Columbia Journalism Review, UC Berkeley.</div>
+      <div style="margin-top: 3pt; color: #555555; font-size: 8.5pt;">Dokumen ini merupakan hasil ekspor instrumen bantu kalkulator <strong>Takar Budaya</strong>.</div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
